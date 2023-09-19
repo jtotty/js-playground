@@ -11,14 +11,20 @@
  *
  * While this is an unrealistic case, it shows that promises can significantly impact performance.
  */
-function fibRecursiveNormal(num) {
-    if (num <= 1) { return 1; }
-    return fibRecursiveNormal(num - 1) + fibRecursiveNormal(num - 2);
+function fibRecursiveNormal(n) {
+    if (n <= 1) {
+        return n;
+    }
+
+    return fibRecursiveNormal(n - 1) + fibRecursiveNormal(n - 2);
 }
 
-async function fibRecursivePromises(num) {
-    if (num <= 1) { return 1; }
-    return await fibRecursivePromises(num - 1) + await fibRecursivePromises(num - 2);
+async function fibRecursivePromises(n) {
+    if (n <= 1) {
+        return n;
+    }
+
+    return await fibRecursivePromises(n - 1) + await fibRecursivePromises(n - 2);
 }
 
 /**
