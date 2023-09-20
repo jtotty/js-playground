@@ -20,18 +20,23 @@ function fibNoRecursion(n) {
  * Standard recursive fibbonaci example every student is taught.
  * Every blogger copying each other with this example and getting it wrong... JFC.
  */
+const cache = new Map();
 function fibRecursive(n) {
+    if (cache.has(n)) {
+        return cache.get(n);
+    }
+
     if (n <= 1) {
+        cache.set(n, n);
         return n;
     }
 
-    return fibRecursive(n - 1) + fibRecursive(n - 2);
+    const result = fibRecursive(n - 1) + fibRecursive(n - 2);
+    cache.set(n, result);
+
+    return result;
 }
 
-/**
- * Standard recursive fibbonaci example every student is taught
- * but with memoization.
- */
 // const Memoizer = (() => {
 //    const cache = {};
 
@@ -55,7 +60,7 @@ function fibRecursive(n) {
 //     return { cache, run }
 // })();
 
-class MemoizerClass {
+class Memoizer {
     constructor() {
         // Map is more performant than an object for this use case.
         // https://www.zhenghao.io/posts/object-vs-map
@@ -64,8 +69,8 @@ class MemoizerClass {
 
     run(func) {
         // Closures do not inherit an outer function’s arguments object
-        // Can now access the arguments object of the function that is passesd as a parameter
-        // Basically taking advantage of its limitations
+        // Can now access the arguments array of the function that is passesd as a parameter
+        // Basically taking advantage of JS limitations
         return ((...args) => {
             // Can handle any number of arguments
             const key = JSON.stringify(args);
@@ -82,8 +87,8 @@ class MemoizerClass {
     }
 }
 
-const Memoizer = new MemoizerClass();
-const fibMemo = Memoizer.run((n) => {
+const memoizer = new Memoizer();
+const fibMemo = memoizer.run((n) => {
     if (n <= 1) {
         return n;
     }
@@ -98,8 +103,8 @@ function run(func) {
     const result = func.apply(null, [N]);
     const end = performance.now() - start;
 
-    const name = func.name || 'fibMemo';
-    console.log(`${name}: ${end.toFixed(2)} ms`);
+    const name = func.name || 'fibRecursiveMemo';
+    console.log(`${name}: ${end.toFixed(5)} ms`);
 
     return result;
 }
@@ -109,7 +114,16 @@ const recursive = run(fibRecursive);
 const recursiveMemo = run(fibMemo);
 
 console.log('\nCheck all results are the same:');
-console.log({ nonRecursive, recursive, recursiveMemo, });
+console.log({
+    nonRecursive,
+    recursive,
+    recursiveMemo,
+    'all-equal': (() => {
+        const set = new Set([nonRecursive, recursive, recursiveMemo]);
+        return set.size === 1;
+    })(),
+});
 
-console.log('\nCheck memoization cache is actually being populated:');
-console.log(Memoizer.cache);
+// console.log('\nCheck memoization cache is actually being populated:');
+// console.log(cache);
+// console.log(memoizer.cache);
