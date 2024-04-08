@@ -97,4 +97,4 @@ function run() {
 
 // run();
 
-module.exports = { optimalShuffle };
+export default optimalShuffle;

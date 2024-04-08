@@ -1,4 +1,4 @@
-import { optimalShuffle } from './fisherYatesShuffle.js';
+import optimalShuffle from './fisherYatesShuffle.js';
 
 const SIZE = 10_000;
 

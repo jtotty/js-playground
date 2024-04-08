@@ -1,4 +1,4 @@
-const { optimalShuffle } = require('./fisherYatesShuffle.js');
+import optimalShuffle from './fisherYatesShuffle.js';
 
 const SIZE = 100_000;
 
@@ -17,19 +17,19 @@ optimalShuffle(blocks1);
 
 const standardWay = {
     updateBlock(block) {
-        const index = blocks1.findIndex(b => b.id === block.id);
+        const index = blocks1.findIndex((b) => b.id === block.id);
         if (index !== -1) {
             blocks1[index] = block;
         }
     },
     removeBlock(id) {
-        const index = blocks1.findIndex(b => b.id === id);
+        const index = blocks1.findIndex((b) => b.id === id);
         if (index !== -1) {
             blocks1[index] = blocks1.at(-1);
             blocks1.pop();
         }
     },
-}
+};
 
 const blocks2 = blockArrayFactory();
 optimalShuffle(blocks2);

@@ -71,7 +71,7 @@ class Memoizer {
         // Closures do not inherit an outer function’s arguments object
         // Can now access the arguments array of the function that is passesd as a parameter
         // Basically taking advantage of JS limitations
-        return ((...args) => {
+        return (...args) => {
             // Can handle any number of arguments
             const key = JSON.stringify(args);
 
@@ -83,7 +83,7 @@ class Memoizer {
             this.cache.set(key, result);
 
             return result;
-        });
+        };
     }
 }
 
